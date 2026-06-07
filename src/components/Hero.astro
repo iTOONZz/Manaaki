@@ -1,0 +1,49 @@
+---
+---
+<section id="hero" class="relative overflow-hidden pt-8 md:pt-12 pb-16 md:pb-24 bg-cream">
+
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+
+    <div class="flex justify-center mb-6">
+      <div class="relative overflow-hidden w-full max-w-xs md:max-w-xl lg:max-w-2xl">
+        <img
+          src="/images/Logo 2 - no background.png"
+          alt="Manaaki Midwives"
+          class="w-full h-auto block"
+          width="1440"
+          height="810"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    <p class="text-sage font-medium text-sm tracking-widest uppercase mb-5">Hutt Valley · LMC Midwifery</p>
+    <p class="text-lg text-ink/75 mb-8 leading-relaxed max-w-2xl mx-auto">
+      Continuity of care through pregnancy, birth and the weeks beyond, at Hutt Hospital or at home. Free for eligible NZ residents.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 mb-10">
+      <a
+        href="#contact"
+        class="px-6 py-3 bg-sage text-white font-medium rounded-full hover:bg-sage-deep transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
+      >
+        Enquire about care
+      </a>
+      <a
+        href="#midwives"
+        class="px-6 py-3 border-2 border-sage text-sage font-medium rounded-full hover:bg-mint/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
+      >
+        Meet the midwives
+      </a>
+    </div>
+    <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-ink/65">
+      {["Hutt Hospital births", "Home birth", "Planned caesarean support", "Free for eligible residents"].map(item => (
+        <span class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-sage flex-shrink-0" aria-hidden="true"></span>
+          {item}
+        </span>
+      ))}
+    </div>
+
+  </div>
+
+</section>

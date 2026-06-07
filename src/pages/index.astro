@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Services from '../components/Services.astro';
+import Midwives from '../components/Midwives.astro';
+import Journey from '../components/Journey.astro';
+import Availability from '../components/Availability.astro';
+import FAQ from '../components/FAQ.astro';
+import Resources from '../components/Resources.astro';
+import Contact from '../components/Contact.astro';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Manaaki Midwives",
+  "description": "Lead Maternity Carer (LMC) midwifery practice serving whānau across Upper and Lower Hutt and Wainuiomata.",
+  "url": "https://manaakimidwives.co.nz",
+  "logo": "https://manaakimidwives.co.nz/images/logo.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Level 1, 15 Daly Street",
+    "addressLocality": "Lower Hutt",
+    "addressRegion": "Wellington",
+    "postalCode": "5010",
+    "addressCountry": "NZ"
+  },
+  "telephone": "0800643993",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -41.2124,
+    "longitude": 174.9072
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Lower Hutt" },
+    { "@type": "City", "name": "Upper Hutt" },
+    { "@type": "Place", "name": "Wainuiomata" }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61569933419412",
+    "https://www.instagram.com/jademidwife.nz/"
+  ]
+};
+---
+<BaseLayout jsonLd={jsonLd}>
+  <Header />
+  <main id="main-content">
+    <Hero />
+    <About />
+    <Services />
+    <Midwives />
+    <Journey />
+    <Availability />
+    <FAQ />
+    <Resources />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

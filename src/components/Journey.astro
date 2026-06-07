@@ -1,0 +1,36 @@
+---
+const steps = [
+  { number: "01", title: "Get in touch early", description: "Ideally as soon as you know you're pregnant, no need to see a GP first. We can organise required scans and blood tests." },
+  { number: "02", title: "We confirm availability", description: "For your estimated due month. We aim to respond within 48 hours, excluding weekends." },
+  { number: "03", title: "Meet your midwife & register", description: "Typically a face-to-face visit around 6-8 weeks at either our Upper or Lower Hutt clinic." },
+  { number: "04", title: "Antenatal care", description: "Throughout your pregnancy." },
+  { number: "05", title: "Birth", description: "Supports you through your birth, whether home, Hutt Hospital or planned caesarean." },
+  { number: "06", title: "Postnatal care at home", description: "In-home visits for you and your newborn." },
+];
+---
+<section id="journey" class="py-16 md:py-24 bg-cream">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-14">
+      <h2 class="font-serif text-3xl md:text-4xl text-ink mb-4">Your journey with us</h2>
+      <p class="text-ink/65 max-w-xl mx-auto text-lg">
+        From first contact through to those precious early weeks at home.
+      </p>
+    </div>
+
+    <div class="relative">
+      <div class="hidden lg:block absolute top-8 left-[calc(1/12*100%)] right-[calc(1/12*100%)] h-0.5 bg-mint" aria-hidden="true"></div>
+      <ol class="grid sm:grid-cols-2 lg:grid-cols-6 gap-8" aria-label="Steps in your midwifery journey">
+        {steps.map(step => (
+          <li class="relative flex flex-col items-center text-center">
+            <div class="relative z-10 w-16 h-16 rounded-full bg-sage flex items-center justify-center mb-4 shadow-sm flex-shrink-0">
+              <span class="font-serif font-bold text-white text-lg" aria-hidden="true">{step.number}</span>
+              <span class="sr-only">Step {step.number}:</span>
+            </div>
+            <h3 class="font-serif text-base font-semibold text-ink mb-2">{step.title}</h3>
+            <p class="text-sm text-ink/65">{step.description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

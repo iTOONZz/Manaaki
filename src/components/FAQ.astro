@@ -1,0 +1,55 @@
+---
+import faq from '../data/faq.json';
+---
+<section id="faq" class="py-16 md:py-24 bg-cream">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-serif text-3xl md:text-4xl text-ink mb-4">Frequently asked questions</h2>
+    </div>
+
+    <dl class="space-y-3">
+      {faq.map((item, i) => (
+        <div class="border border-mint rounded-2xl overflow-hidden">
+          <dt>
+            <button
+              class="w-full flex justify-between items-center px-6 py-4 text-left font-serif text-lg font-medium text-ink hover:bg-mint/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-inset"
+              aria-expanded="false"
+              aria-controls={`faq-answer-${i}`}
+              id={`faq-btn-${i}`}
+              type="button"
+            >
+              <span>{item.question}</span>
+              <svg
+                class="w-5 h-5 text-sage flex-shrink-0 ml-4 transition-transform duration-200"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </dt>
+          <dd id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-btn-${i}`} hidden class="px-6 pb-5 pt-1 text-ink/70 leading-relaxed">
+            {item.answer}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('#faq button[aria-expanded]').forEach(button => {
+    button.addEventListener('click', () => {
+      const answerId = button.getAttribute('aria-controls')!;
+      const dd = document.getElementById(answerId)!;
+      const svg = button.querySelector('svg')!;
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+      button.setAttribute('aria-expanded', String(!isOpen));
+      dd.hidden = isOpen;
+      svg.classList.toggle('rotate-180', !isOpen);
+    });
+  });
+</script>

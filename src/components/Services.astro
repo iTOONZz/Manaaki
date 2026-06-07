@@ -1,0 +1,24 @@
+---
+import services from '../data/services.json';
+---
+<section id="services" class="py-16 md:py-24 bg-cream">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-12">
+      <h2 class="font-serif text-3xl md:text-4xl text-ink mb-4">Our services</h2>
+      <p class="text-ink/65 max-w-xl mx-auto text-lg">
+        Complete care from your first appointment through the early weeks with your pēpē.
+      </p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {services.map(service => (
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-mint/50 hover:shadow-md hover:border-mint transition-all">
+          <div class="w-10 h-10 rounded-full bg-mint flex items-center justify-center mb-4" aria-hidden="true">
+            <span class="text-sage-deep text-lg">✦</span>
+          </div>
+          <h3 class="font-serif text-xl text-ink mb-2">{service.title}</h3>
+          <p class="text-ink/65 text-sm leading-relaxed">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

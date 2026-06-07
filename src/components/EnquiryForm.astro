@@ -1,0 +1,231 @@
+---
+---
+<!--
+  ROUTING SETUP REQUIRED:
+  Each midwife needs their email configured as a notification in the Netlify
+  dashboard under Forms > enquiry-jade / enquiry-shari / enquiry-gemma / enquiry-hayley.
+  Still need: individual email addresses for each midwife.
+-->
+
+<!-- Hidden forms so Netlify registers all four at build time -->
+<form name="enquiry-jade"   data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-shari"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-gemma"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-hayley" data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-group"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+
+<!-- Visible form -->
+<form
+  id="enquiry-form"
+  name="enquiry-jade"
+  method="POST"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  class="space-y-5"
+>
+  <input type="hidden" name="form-name" id="form-name-field" value="enquiry-jade" />
+
+  <div class="hidden" aria-hidden="true">
+    <label>Don't fill this out: <input name="bot-field" tabindex="-1" /></label>
+  </div>
+
+  <!-- Midwife selection — first question, drives routing -->
+  <div>
+    <label for="midwife" class="block text-sm font-medium text-ink mb-1.5">
+      Choose your midwife <span aria-label="required" class="text-sage">*</span>
+    </label>
+    <select
+      id="midwife"
+      name="midwife"
+      required
+      class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+    >
+      <option value="" disabled selected>Select a midwife…</option>
+      <option value="jade">Jade van der Hoorn</option>
+      <option value="shari">Shari Bewley</option>
+      <option value="gemma">Gemma McAlister</option>
+      <option value="hayley">Hayley Soro</option>
+      <option value="group">No preference</option>
+    </select>
+    <p id="availability-note" class="mt-1.5 text-xs text-ink/50 hidden"></p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div>
+      <label for="name" class="block text-sm font-medium text-ink mb-1.5">
+        Full name <span aria-label="required" class="text-sage">*</span>
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        autocomplete="name"
+        required
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+        placeholder="Your full name"
+      />
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium text-ink mb-1.5">
+        Email address <span aria-label="required" class="text-sage">*</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        autocomplete="email"
+        required
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+        placeholder="you@example.com"
+      />
+    </div>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div>
+      <label for="phone" class="block text-sm font-medium text-ink mb-1.5">
+        Phone <span class="text-ink/45 font-normal">(optional)</span>
+      </label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        autocomplete="tel"
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+        placeholder="021 ..."
+      />
+    </div>
+    <div>
+      <label for="due-date" class="block text-sm font-medium text-ink mb-1.5">
+        Estimated due month <span aria-label="required" class="text-sage">*</span>
+      </label>
+      <select
+        id="due-date"
+        name="due_date"
+        required
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+      >
+        <option value="" disabled selected>Select month…</option>
+        <option value="not-sure">Not sure yet</option>
+        <option value="2026-06">June 2026</option>
+        <option value="2026-07">July 2026</option>
+        <option value="2026-08">August 2026</option>
+        <option value="2026-09">September 2026</option>
+        <option value="2026-10">October 2026</option>
+        <option value="2026-11">November 2026</option>
+        <option value="2026-12">December 2026</option>
+        <option value="2027-01">January 2027</option>
+        <option value="2027-02">February 2027</option>
+        <option value="2027-03">March 2027</option>
+        <option value="2027-04">April 2027</option>
+        <option value="2027-05">May 2027</option>
+        <option value="2027-06">June 2027</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div>
+      <label for="suburb" class="block text-sm font-medium text-ink mb-1.5">
+        Suburb / area <span aria-label="required" class="text-sage">*</span>
+      </label>
+      <input
+        type="text"
+        id="suburb"
+        name="suburb"
+        required
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+        placeholder="e.g. Wainuiomata, Upper Hutt…"
+      />
+    </div>
+    <div>
+      <label for="birth-setting" class="block text-sm font-medium text-ink mb-1.5">
+        Where you're hoping to birth
+      </label>
+      <select
+        id="birth-setting"
+        name="birth_setting"
+        class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+      >
+        <option value="" selected>Select…</option>
+        <option value="hutt-hospital">Hutt Hospital</option>
+        <option value="home">Home</option>
+        <option value="planned-caesarean">Planned caesarean</option>
+        <option value="not-sure">Not sure yet</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label for="referral" class="block text-sm font-medium text-ink mb-1.5">
+      How did you hear about us? <span class="text-ink/45 font-normal">(optional)</span>
+    </label>
+    <input
+      type="text"
+      id="referral"
+      name="referral"
+      class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+      placeholder="Friend, social media, Google…"
+    />
+  </div>
+
+  <div>
+    <label for="message" class="block text-sm font-medium text-ink mb-1.5">
+      Message <span class="text-ink/45 font-normal">(optional)</span>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="4"
+      class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink placeholder-ink/35 focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent resize-y"
+      placeholder="Tell us a little about yourself…"
+    ></textarea>
+  </div>
+
+  <div>
+    <label class="flex gap-3 items-start cursor-pointer">
+      <input
+        type="checkbox"
+        name="consent"
+        required
+        class="mt-0.5 w-4 h-4 rounded border-taupe/50 accent-sage focus:ring-2 focus:ring-sage focus:ring-offset-0 flex-shrink-0"
+      />
+      <span class="text-sm text-ink/75 leading-relaxed">
+        I agree to Manaaki Midwives storing this enquiry to respond to me. See our{" "}
+        <a href="/privacy" class="text-sage underline underline-offset-2 hover:text-sage-deep">Privacy statement</a>.
+        <span aria-label="required" class="text-sage ml-0.5">*</span>
+      </span>
+    </label>
+  </div>
+
+  <button
+    type="submit"
+    class="w-full sm:w-auto px-8 py-3 bg-sage text-white font-medium rounded-full hover:bg-sage-deep transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
+  >
+    Send enquiry
+  </button>
+</form>
+
+<script>
+  const select = document.getElementById('midwife') as HTMLSelectElement;
+  const formNameField = document.getElementById('form-name-field') as HTMLInputElement;
+  const form = document.getElementById('enquiry-form') as HTMLFormElement;
+  const note = document.getElementById('availability-note')!;
+
+  const availabilityNotes: Record<string, string> = {
+    jade:   'Jade is currently full until February 2027.',
+    shari:  'Shari is currently full until February 2027.',
+    gemma:  'Gemma has limited availability from February 2027.',
+    hayley: 'Hayley is currently full until February 2027.',
+    group:  'Your enquiry will be sent to the whole team — they\'ll check availability and get back to you.',
+  };
+
+  select.addEventListener('change', () => {
+    const val = select.value;
+    formNameField.value = `enquiry-${val}`;
+    form.name = `enquiry-${val}`;
+    const msg = availabilityNotes[val] ?? '';
+    note.textContent = msg;
+    note.classList.toggle('hidden', !msg);
+  });
+</script>

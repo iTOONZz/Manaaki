@@ -1,0 +1,57 @@
+---
+const resources = [
+  {
+    title: "Hutt Hospital maternity services",
+    href: "https://www.healthnz.govt.nz/hospitals-services/hospitals/wellington-hutt-and-kapiti/maternity",
+  },
+  {
+    title: "Maternity eligibility (Te Whatu Ora)",
+    href: "https://www.tewhatuora.govt.nz/for-health-providers/publicly-funded-health-and-disability-services/pregnancy-services",
+  },
+  {
+    title: "Find Your Midwife - NZ College of Midwives",
+    href: "https://www.findyourmidwife.co.nz/",
+  },
+  {
+    title: "Immunisation in pregnancy and for pēpē",
+    href: "https://www.healthnz.govt.nz/health-topics/immunisations/when-to-immunise/pregnancy-and-immunisations",
+  },
+];
+---
+<section id="resources" class="py-16 md:py-24 bg-mint/20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-10">
+      <h2 class="font-serif text-3xl md:text-4xl text-ink mb-4">Resources</h2>
+      <p class="text-ink/65 max-w-xl mx-auto text-lg">
+        Helpful links for whānau navigating pregnancy and early parenting.
+      </p>
+    </div>
+    <ul class="grid sm:grid-cols-2 gap-4" role="list">
+      {resources.map(resource => (
+        <li>
+          <a
+            href={resource.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 p-4 bg-white rounded-xl border border-mint/50 hover:border-sage hover:shadow-sm transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage"
+          >
+            <span class="w-2 h-2 rounded-full bg-sage flex-shrink-0" aria-hidden="true"></span>
+            <span class="text-sm font-medium text-ink group-hover:text-sage transition-colors leading-snug">
+              {resource.title}
+            </span>
+            <svg
+              class="w-4 h-4 text-ink/30 ml-auto flex-shrink-0 group-hover:text-sage transition-colors"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
