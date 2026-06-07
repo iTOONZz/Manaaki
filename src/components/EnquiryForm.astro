@@ -158,11 +158,12 @@
 
   <div>
     <label for="previous-births" class="block text-sm font-medium text-ink mb-1.5">
-      Previous births <span class="text-ink/45 font-normal">(optional)</span>
+      Previous births <span aria-label="required" class="text-sage">*</span>
     </label>
     <select
       id="previous-births"
       name="previous_births"
+      required
       class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
     >
       <option value="" selected>Select…</option>
