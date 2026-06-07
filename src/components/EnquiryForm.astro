@@ -47,7 +47,6 @@
       <option value="hayley">Hayley Soro</option>
       <option value="group">No preference</option>
     </select>
-    <p id="availability-note" class="mt-1.5 text-xs text-ink/50 hidden"></p>
   </div>
 
   <div class="grid sm:grid-cols-2 gap-5">
@@ -210,22 +209,10 @@
   const select = document.getElementById('midwife') as HTMLSelectElement;
   const formNameField = document.getElementById('form-name-field') as HTMLInputElement;
   const form = document.getElementById('enquiry-form') as HTMLFormElement;
-  const note = document.getElementById('availability-note')!;
-
-  const availabilityNotes: Record<string, string> = {
-    jade:   'Jade is currently full until February 2027.',
-    shari:  'Shari is currently full until February 2027.',
-    gemma:  'Gemma has limited availability from February 2027.',
-    hayley: 'Hayley is currently full until February 2027.',
-    group:  'Your enquiry will be sent to the whole team — they\'ll check availability and get back to you.',
-  };
 
   select.addEventListener('change', () => {
     const val = select.value;
     formNameField.value = `enquiry-${val}`;
     form.name = `enquiry-${val}`;
-    const msg = availabilityNotes[val] ?? '';
-    note.textContent = msg;
-    note.classList.toggle('hidden', !msg);
   });
 </script>
