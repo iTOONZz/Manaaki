@@ -5,6 +5,18 @@
 [build.environment]
   NODE_VERSION = "22"
 
+[[redirects]]
+  from = "http://manaakimidwives.co.nz/*"
+  to = "https://manaakimidwives.co.nz/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.manaakimidwives.co.nz/*"
+  to = "https://manaakimidwives.co.nz/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
