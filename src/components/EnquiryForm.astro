@@ -8,11 +8,11 @@
 -->
 
 <!-- Hidden forms so Netlify registers all four at build time -->
-<form name="enquiry-jade"   data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-shari"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-gemma"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-hayley" data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-group"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-jade"   data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-shari"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-gemma"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-hayley" data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
+<form name="enquiry-group"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
 
 <!-- Visible form -->
 <form
@@ -154,6 +154,23 @@
         <option value="not-sure">Not sure yet</option>
       </select>
     </div>
+  </div>
+
+  <div>
+    <label for="previous-births" class="block text-sm font-medium text-ink mb-1.5">
+      Previous births <span class="text-ink/45 font-normal">(optional)</span>
+    </label>
+    <select
+      id="previous-births"
+      name="previous_births"
+      class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
+    >
+      <option value="" selected>Select…</option>
+      <option value="first-time">First time</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3+">3+</option>
+    </select>
   </div>
 
   <div>
