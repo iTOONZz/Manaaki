@@ -1,25 +1,25 @@
 ---
-import availability from '../data/availability.json';
+// To update availability without a deploy:
+// 1. Open the Google Sheet linked in SHEET_URL below
+// 2. Edit the Month / Status rows (available | limited | full)
+// 3. Save — changes appear on the site within a few minutes, no deploy needed
+//
+// First-time setup: create a Google Sheet, File > Share > Publish to web >
+// Sheet1 > Comma-separated values (.csv) > Publish, then paste the URL below.
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpwCqJuPRplLtULaHAbSmz7u6Ivp6p-A5CPm4gtfeoSIW7EbbmMIfmuuPv0C9W-MDcI3lcM-WTnmFu/pub?gid=0&single=true&output=csv';
 
-type Status = 'available' | 'limited' | 'full';
-
-const statusConfig: Record<Status, { label: string; bg: string; text: string }> = {
-  available: { label: "Available", bg: "bg-sage", text: "text-white" },
-  limited:   { label: "Limited",   bg: "bg-amber", text: "text-ink" },
-  full:      { label: "Full",      bg: "bg-taupe", text: "text-white" },
+const FALLBACK: Record<string, string> = {
+  "2026-07": "full",
+  "2026-08": "full",
+  "2026-09": "full",
+  "2026-10": "full",
+  "2026-11": "full",
+  "2026-12": "full",
+  "2027-01": "full",
+  "2027-02": "limited",
 };
-
-const monthNames: Record<string, string> = {
-  "01": "January", "02": "February", "03": "March", "04": "April",
-  "05": "May", "06": "June", "07": "July", "08": "August",
-  "09": "September", "10": "October", "11": "November", "12": "December",
-};
-
-const entries = Object.entries(availability as Record<string, string>).map(([key, status]) => {
-  const [year, month] = key.split('-');
-  return { key, year, month, name: monthNames[month], status: status as Status };
-});
 ---
+
 <section id="availability" class="py-16 md:py-24 bg-mint/20">
   <div class="max-w-4xl mx-auto px-4 sm:px-6">
     <div class="text-center mb-10">
@@ -30,23 +30,12 @@ const entries = Object.entries(availability as Record<string, string>).map(([key
     </div>
 
     <div
-      class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-8"
+      id="availability-grid"
+      class="flex flex-wrap justify-center gap-3 mb-8"
       role="list"
       aria-label="Availability by month"
     >
-      {entries.map(entry => {
-        const config = statusConfig[entry.status];
-        return (
-          <div
-            role="listitem"
-            class={`${config.bg} ${config.text} rounded-xl p-3 text-center shadow-sm`}
-          >
-            <div class="text-xs font-medium opacity-75 mb-0.5">{entry.year}</div>
-            <div class="font-serif font-semibold text-sm">{entry.name}</div>
-            <div class="text-xs mt-1 opacity-85">{config.label}</div>
-          </div>
-        );
-      })}
+      <div class="col-span-full text-center text-ink/45 py-6 text-sm">Loading…</div>
     </div>
 
     <div class="flex flex-wrap justify-center gap-6 text-sm mb-6" role="list" aria-label="Availability key">
@@ -71,3 +60,81 @@ const entries = Object.entries(availability as Record<string, string>).map(([key
     </p>
   </div>
 </section>
+
+<style is:global>
+  #availability-grid [data-status="available"] { background-color: #5B9279; color: #fff; }
+  #availability-grid [data-status="limited"]   { background-color: #E8B84B; color: #3D2B1F; }
+  #availability-grid [data-status="full"]      { background-color: #A89F87; color: #fff; }
+  #availability-grid .avail-month { font-family: var(--font-serif); font-weight: 600; font-size: 0.875rem; }
+</style>
+
+<script define:vars={{ SHEET_URL, FALLBACK }}>
+  const MONTHS = {
+    "01": "January",  "02": "February", "03": "March",     "04": "April",
+    "05": "May",      "06": "June",     "07": "July",      "08": "August",
+    "09": "September","10": "October",  "11": "November",  "12": "December",
+  };
+
+  const LABELS = { available: "Available", limited: "Limited", full: "Full" };
+
+  function renderGrid(data) {
+    const grid = document.getElementById('availability-grid');
+    const entries = Object.entries(data).sort((a, b) => a[0].localeCompare(b[0]));
+    if (!entries.length) {
+      grid.innerHTML = '<div class="col-span-full text-center text-ink/45 py-6 text-sm">No availability data.</div>';
+      return;
+    }
+    grid.innerHTML = entries.map(([key, rawStatus]) => {
+      const status = rawStatus.toLowerCase().trim();
+      const [year, month] = key.split('-');
+      return `<div role="listitem" data-status="${status}" class="rounded-xl p-3 text-center shadow-sm w-24 sm:w-28">
+        <div class="text-xs font-medium opacity-75 mb-0.5">${year}</div>
+        <div class="avail-month">${MONTHS[month] ?? month}</div>
+        <div class="text-xs mt-1 opacity-85">${LABELS[status] ?? 'Full'}</div>
+      </div>`;
+    }).join('');
+  }
+
+  const MONTH_NAMES_TO_NUM = {
+    january:'01', february:'02', march:'03', april:'04', may:'05', june:'06',
+    july:'07', august:'08', september:'09', october:'10', november:'11', december:'12',
+    jan:'01', feb:'02', mar:'03', apr:'04', jun:'06', jul:'07',
+    aug:'08', sep:'09', oct:'10', nov:'11', dec:'12',
+  };
+
+  function toYearMonth(raw) {
+    const s = raw.trim().replace(/^"|"$/g, '');
+    // Already YYYY-MM
+    if (/^\d{4}-\d{2}$/.test(s)) return s;
+    // Extract 4-digit year and month name from any format e.g. "1 June 2026", "June 2026"
+    const yearMatch = s.match(/\b(20\d{2})\b/);
+    const monthMatch = s.toLowerCase().match(/\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\b/);
+    if (yearMatch && monthMatch) return `${yearMatch[1]}-${MONTH_NAMES_TO_NUM[monthMatch[1]]}`;
+    // Fallback: try JS Date parsing
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    return null;
+  }
+
+  async function loadAvailability() {
+    if (!SHEET_URL) { renderGrid(FALLBACK); return; }
+    try {
+      const resp = await fetch(SHEET_URL);
+      if (!resp.ok) throw new Error();
+      const text = await resp.text();
+      const data = {};
+      for (const line of text.split('\n').slice(1)) {
+        if (!line.trim()) continue;
+        const parts = line.split(',');
+        const key = toYearMonth(parts[0] ?? '');
+        const status = (parts[1] ?? '').trim().replace(/^"|"$/g, '').toLowerCase();
+        if (key && status) data[key] = status;
+      }
+      renderGrid(Object.keys(data).length ? data : FALLBACK);
+    } catch {
+      renderGrid(FALLBACK);
+    }
+  }
+
+  loadAvailability();
+</script>
