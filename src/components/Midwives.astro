@@ -9,7 +9,7 @@ import midwives from '../data/midwives.json';
         Our small, close-knit team brings depth of experience and genuine warmth to every whānau they care for.
       </p>
       <p class="text-sm text-ink/55">
-        <strong class="text-ink/70">Clinic days:</strong> Tuesdays: Shari &amp; Gemma &nbsp;·&nbsp; Wednesdays: Hayley &amp; Jade
+        <strong class="text-ink/70">Clinic days:</strong> Tuesdays: Shari (Lower Hutt) &amp; Gemma (Upper Hutt) &nbsp;·&nbsp; Wednesdays: Hayley (Lower Hutt) &amp; Jade (Upper Hutt)
       </p>
     </div>
 
@@ -40,7 +40,9 @@ import midwives from '../data/midwives.json';
             <p class="text-xs tracking-widest text-ink/55 uppercase mb-3">{midwife.role}</p>
             {midwife.clinicDay && (
               <p class="text-xs text-sage font-medium mb-1">
-                <span class="bg-mint/60 px-2.5 py-0.5 rounded-full">Clinic: {midwife.clinicDay}</span>
+                <span class="bg-mint/60 px-2.5 py-0.5 rounded-full">
+                  {midwife.clinicLocation && `${midwife.clinicLocation} clinic: `}{midwife.clinicDay}
+                </span>
               </p>
             )}
             {midwife.badge && (

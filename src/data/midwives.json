@@ -3,7 +3,7 @@
     "name": "Jade van der Hoorn",
     "role": "LMC Midwife",
     "clinicDay": "Wednesdays",
-    "clinicNote": "Upper Hutt clinic coming soon",
+    "clinicLocation": "Upper Hutt",
     "photo": "/images/Jade.jpg",
     "photoPosition": "center center",
     "bio": "Kia Ora and congratulations on your hapūtanga (pregnancy) journey! I am a mama of 3 residing in Upper Hutt providing culturally safe care for whānau across the Hutt Valley region. I have a strong belief in the body's innate ability to give birth and that knowledge is power. My job is to help support, educate and guide you to bring your pēpē earthside in the place you feel safest to do so whether that be home or hospital."
@@ -12,6 +12,7 @@
     "name": "Shari Bewley",
     "role": "LMC Midwife",
     "clinicDay": "Tuesdays",
+    "clinicLocation": "Lower Hutt",
     "photo": "/images/Shari.jpg",
     "photoPosition": "center center",
     "bio": "Kia ora and let me congratulate you on your pregnancy. Giving birth is a beautiful, life changing experience. During my career I have worked as a Core Midwife, Lead Maternity Carer and most recently, a Theatre Midwife at the Lower Hutt Hospital. My experience in both settings has given me a depth of knowledge and experience that allows me to support you through your journey. I offer full antenatal, labour and birth, and postnatal care in the Lower Hutt region and am happy to support women who are having an elective c-section as their choice of birth. Throughout your pregnancy and childbirth experience, I will ensure that you are fully informed and aware of your options during this special time."
@@ -20,7 +21,7 @@
     "name": "Gemma McAlister",
     "role": "LMC Midwife",
     "clinicDay": "Tuesdays",
-    "clinicNote": "Upper Hutt clinic coming soon",
+    "clinicLocation": "Upper Hutt",
     "photo": "/images/Gemma.jpg",
     "photoPosition": "center center",
     "bio": "Kia Ora, I am an LMC based in the Hutt Valley, and a mother of four. As a midwife, my philosophy is based on the belief that childbirth is a natural life event deserving of respect and empowerment. I strive to provide midwifery care that is informed, safe, and tailored to each individual, creating a supportive environment where you can make choices that align with your unique needs."
@@ -29,6 +30,7 @@
     "name": "Hayley Soro",
     "role": "LMC Midwife",
     "clinicDay": "Wednesdays",
+    "clinicLocation": "Lower Hutt",
     "photo": "/images/Hayley.jpg",
     "photoPosition": "center center",
     "bio": "Kia ora! I'm an LMC midwife and a mother of three, based in the Hutt Valley. I'm passionate about supporting physiological birth and empowering you and your whānau during your pregnancy, birth and the first weeks with your new baby. It is important to me that I share information so you feel confident and fully informed to make decisions that reflect your values and needs. Birth is such an incredible and transformative journey, and I feel privileged to walk alongside you and your whānau, offering care and guidance during this special time."
