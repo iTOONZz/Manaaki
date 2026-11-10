@@ -1,53 +1,25 @@
 ---
 ---
 <!--
-  ROUTING SETUP REQUIRED:
-  Each midwife needs their email configured as a notification in the Netlify
-  dashboard under Forms > enquiry-jade / enquiry-shari / enquiry-gemma / enquiry-hayley.
-  Still need: individual email addresses for each midwife.
+  CENTRALISED ENQUIRY FORM
+  All enquiries submit to the single Netlify form "enquiry-group" (detected at build
+  from the markup below). Delivery is configured in the Netlify dashboard under
+  Forms > enquiry-group > Form notifications, sending to the shared team inbox
+  info@manaakimidwives.co.nz. No credentials live in this code.
 -->
-
-<!-- Hidden forms so Netlify registers all four at build time -->
-<form name="enquiry-jade"   data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-shari"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-gemma"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-hayley" data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-<form name="enquiry-group"  data-netlify="true" hidden aria-hidden="true"><input type="text" name="name" /><input type="email" name="email" /><input type="text" name="phone" /><input type="text" name="due_date" /><input type="text" name="suburb" /><input type="text" name="birth_setting" /><input type="text" name="previous_births" /><input type="text" name="referral" /><textarea name="message"></textarea></form>
-
-<!-- Visible form -->
 <form
   id="enquiry-form"
-  name="enquiry-jade"
+  name="enquiry-group"
   method="POST"
   action="/thank-you"
   data-netlify="true"
   data-netlify-honeypot="bot-field"
   class="space-y-5"
 >
-  <input type="hidden" name="form-name" id="form-name-field" value="enquiry-jade" />
+  <input type="hidden" name="form-name" value="enquiry-group" />
 
   <div class="hidden" aria-hidden="true">
     <label>Don't fill this out: <input name="bot-field" tabindex="-1" /></label>
-  </div>
-
-  <!-- Midwife selection — first question, drives routing -->
-  <div>
-    <label for="midwife" class="block text-sm font-medium text-ink mb-1.5">
-      Choose your midwife <span aria-label="required" class="text-sage">*</span>
-    </label>
-    <select
-      id="midwife"
-      name="midwife"
-      required
-      class="w-full px-4 py-2.5 rounded-xl border border-taupe/40 bg-white text-ink focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent"
-    >
-      <option value="" disabled selected>Select a midwife…</option>
-      <option value="jade">Jade van der Hoorn</option>
-      <option value="shari">Shari Bewley</option>
-      <option value="gemma">Gemma McAlister</option>
-      <option value="hayley">Hayley Soro</option>
-      <option value="group">No preference</option>
-    </select>
   </div>
 
   <div class="grid sm:grid-cols-2 gap-5">
@@ -210,15 +182,3 @@
     Send enquiry
   </button>
 </form>
-
-<script>
-  const select = document.getElementById('midwife') as HTMLSelectElement;
-  const formNameField = document.getElementById('form-name-field') as HTMLInputElement;
-  const form = document.getElementById('enquiry-form') as HTMLFormElement;
-
-  select.addEventListener('change', () => {
-    const val = select.value;
-    formNameField.value = `enquiry-${val}`;
-    form.name = `enquiry-${val}`;
-  });
-</script>

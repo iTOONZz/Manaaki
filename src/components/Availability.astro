@@ -8,16 +8,6 @@
 // Sheet1 > Comma-separated values (.csv) > Publish, then paste the URL below.
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpwCqJuPRplLtULaHAbSmz7u6Ivp6p-A5CPm4gtfeoSIW7EbbmMIfmuuPv0C9W-MDcI3lcM-WTnmFu/pub?gid=0&single=true&output=csv';
 
-const FALLBACK: Record<string, string> = {
-  "2026-07": "full",
-  "2026-08": "full",
-  "2026-09": "full",
-  "2026-10": "full",
-  "2026-11": "full",
-  "2026-12": "full",
-  "2027-01": "full",
-  "2027-02": "limited",
-};
 ---
 
 <section id="availability" class="py-16 md:py-24 bg-mint/20">
@@ -29,18 +19,18 @@ const FALLBACK: Record<string, string> = {
       </p>
     </div>
 
+    <p id="availability-status" role="status" class="text-center text-ink/65 py-6 text-sm mb-8">Loading…</p>
     <div
       id="availability-grid"
       class="flex flex-wrap justify-center gap-3 mb-8"
       role="list"
       aria-label="Availability by month"
-    >
-      <div class="col-span-full text-center text-ink/45 py-6 text-sm">Loading…</div>
-    </div>
+      hidden
+    ></div>
 
     <div class="flex flex-wrap justify-center gap-6 text-sm mb-6" role="list" aria-label="Availability key">
       <div class="flex items-center gap-2" role="listitem">
-        <div class="w-3 h-3 rounded-full bg-sage" aria-hidden="true"></div>
+        <div class="w-3 h-3 rounded-full bg-sage-deep" aria-hidden="true"></div>
         <span class="text-ink/65">Available</span>
       </div>
       <div class="flex items-center gap-2" role="listitem">
@@ -53,46 +43,75 @@ const FALLBACK: Record<string, string> = {
       </div>
     </div>
 
-    <p class="text-center">
-      <a href="#contact" class="text-sage font-medium hover:text-sage-deep transition-colors underline underline-offset-2">
-        Not sure? Enquire anyway →
+    <div class="text-center">
+      <a
+        href="#enquire"
+        class="inline-block px-8 py-3 bg-sage text-white font-medium rounded-full hover:bg-sage-deep transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-2"
+      >
+        Enquire Now
       </a>
-    </p>
+      <p class="text-sm text-ink/55 mt-3">Not sure about your month? Enquire anyway.</p>
+    </div>
   </div>
 </section>
 
 <style is:global>
-  #availability-grid [data-status="available"] { background-color: #5B9279; color: #fff; }
+  #availability-grid [data-status="available"] { background-color: #2E6B5B; color: #fff; }
   #availability-grid [data-status="limited"]   { background-color: #E8B84B; color: #3D2B1F; }
-  #availability-grid [data-status="full"]      { background-color: #A89F87; color: #fff; }
+  #availability-grid [data-status="full"]      { background-color: #A89F87; color: #3D2B1F; }
   #availability-grid .avail-month { font-family: var(--font-serif); font-weight: 600; font-size: 0.875rem; }
 </style>
 
-<script define:vars={{ SHEET_URL, FALLBACK }}>
+<script define:vars={{ SHEET_URL }}>
   const MONTHS = {
     "01": "January",  "02": "February", "03": "March",     "04": "April",
     "05": "May",      "06": "June",     "07": "July",      "08": "August",
     "09": "September","10": "October",  "11": "November",  "12": "December",
   };
 
+  // Only these statuses are accepted from the sheet; anything else is ignored.
   const LABELS = { available: "Available", limited: "Limited", full: "Full" };
+  const TIMEOUT_MS = 8000;
+
+  const grid = document.getElementById('availability-grid');
+  const statusEl = document.getElementById('availability-status');
+
+  function showError() {
+    grid.hidden = true;
+    grid.replaceChildren();
+    statusEl.textContent = "We couldn't load availability. ";
+    const link = document.createElement('a');
+    link.href = '#enquire';
+    link.className = 'text-sage-deep font-medium underline underline-offset-2 hover:text-sage';
+    link.textContent = 'Please enquire about your due month.';
+    statusEl.append(link);
+    statusEl.hidden = false;
+  }
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
 
   function renderGrid(data) {
-    const grid = document.getElementById('availability-grid');
     const entries = Object.entries(data).sort((a, b) => a[0].localeCompare(b[0]));
-    if (!entries.length) {
-      grid.innerHTML = '<div class="col-span-full text-center text-ink/45 py-6 text-sm">No availability data.</div>';
-      return;
-    }
-    grid.innerHTML = entries.map(([key, rawStatus]) => {
-      const status = rawStatus.toLowerCase().trim();
+    if (!entries.length) { showError(); return; }
+    grid.replaceChildren(...entries.map(([key, status]) => {
       const [year, month] = key.split('-');
-      return `<div role="listitem" data-status="${status}" class="rounded-xl p-3 text-center shadow-sm w-24 sm:w-28">
-        <div class="text-xs font-medium opacity-75 mb-0.5">${year}</div>
-        <div class="avail-month">${MONTHS[month] ?? month}</div>
-        <div class="text-xs mt-1 opacity-85">${LABELS[status] ?? 'Full'}</div>
-      </div>`;
-    }).join('');
+      const card = el('div', 'rounded-xl p-3 text-center shadow-sm w-24 sm:w-28');
+      card.setAttribute('role', 'listitem');
+      card.dataset.status = status;
+      card.append(
+        el('div', 'text-xs font-medium mb-0.5', year),
+        el('div', 'avail-month', MONTHS[month] ?? month),
+        el('div', 'text-xs mt-1', LABELS[status]),
+      );
+      return card;
+    }));
+    statusEl.hidden = true;
+    grid.hidden = false;
   }
 
   const MONTH_NAMES_TO_NUM = {
@@ -117,9 +136,10 @@ const FALLBACK: Record<string, string> = {
   }
 
   async function loadAvailability() {
-    if (!SHEET_URL) { renderGrid(FALLBACK); return; }
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
-      const resp = await fetch(SHEET_URL);
+      const resp = await fetch(SHEET_URL, { signal: controller.signal });
       if (!resp.ok) throw new Error();
       const text = await resp.text();
       const data = {};
@@ -128,11 +148,13 @@ const FALLBACK: Record<string, string> = {
         const parts = line.split(',');
         const key = toYearMonth(parts[0] ?? '');
         const status = (parts[1] ?? '').trim().replace(/^"|"$/g, '').toLowerCase();
-        if (key && status) data[key] = status;
+        if (key && Object.hasOwn(LABELS, status)) data[key] = status;
       }
-      renderGrid(Object.keys(data).length ? data : FALLBACK);
+      renderGrid(data);
     } catch {
-      renderGrid(FALLBACK);
+      showError();
+    } finally {
+      clearTimeout(timer);
     }
   }
 
